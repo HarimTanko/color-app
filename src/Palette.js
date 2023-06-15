@@ -6,6 +6,7 @@ import { generatePalette } from './colorHelpers';
 
 import './Palette.css';
 import Navbar from './Navbar';
+import PaletteFooter from './PaletteFooter';
 
 export default function Palette() {
   const { id } = useParams();
@@ -22,7 +23,14 @@ export default function Palette() {
   const [format, setFormat] = useState('hex');
 
   const colorBoxes = palette.colors[level].map((color) => (
-    <ColorBox background={color[format]} name={color.name} key={color.id} />
+    <ColorBox
+      background={color[format]}
+      name={color.name}
+      key={color.id}
+      id={color.id}
+      paletteId={id}
+      showLink={true}
+    />
   ));
 
   const changeLevel = (level) => {
@@ -39,12 +47,10 @@ export default function Palette() {
         level={level}
         changeLevel={changeLevel}
         handleChange={changeFormat}
+        showingAllColors
       />
       <div className='Palette-colors'>{colorBoxes}</div>
-      <footer className='Palette-footer'>
-        {palette.paletteName}
-        <span className='emoji'>{palette.emoji}</span>
-      </footer>
+      <PaletteFooter palette={palette} />
     </div>
   );
 }
